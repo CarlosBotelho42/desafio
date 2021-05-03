@@ -111,19 +111,4 @@ public class User implements Serializable {
         return Objects.hash(id);
     }
 
-
-    @Override
-    public String toString() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy hh:mm:ss");
-        final StringBuilder sb = new StringBuilder();
-
-        sb.append("Id do Usuario: ");
-        sb.append(getId());
-        sb.append(", Data de nascimento: ");
-        sb.append(sdf.format(getDateOfBirth()));
-        sb.append(", Endereços: ");
-        sb.append(getAddresses());
-        return sb.toString();
-    }
 }
