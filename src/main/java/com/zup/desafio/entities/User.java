@@ -1,24 +1,36 @@
 package com.zup.desafio.entities;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
-@Table(name = "User_tb",uniqueConstraints={@UniqueConstraint(columnNames = {"email" , "cpf"})})
+@Table(name = "User_tb")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty(message = "Nome obrigatório!")
     private String name;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotEmpty(message = "Data de nascimento obrigatória!")
+    private String  dateOfBirth;
+
+    @Column(unique = true)
+    @NotEmpty(message = "Email obrigatório!")
     private String email;
+
+    @Column(unique = true)
+    @NotEmpty(message = "CPF obrigatório!")
+    @CPF(message = "Cpf Invalido!")
     private String cpf;
 
     //cascade = CascadeType.ALL
@@ -30,9 +42,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer id, String name, String email, String cpf) {
+    public User(Integer id, String name, String dateOfBirth,String email, String cpf) {
         this.id = id;
         this.name = name;
+        this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.cpf = cpf;
     }
@@ -51,6 +64,14 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getEmail() {
@@ -88,5 +109,21 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy hh:mm:ss");
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("Id do Usuario: ");
+        sb.append(getId());
+        sb.append(", Data de nascimento: ");
+        sb.append(sdf.format(getDateOfBirth()));
+        sb.append(", Endereços: ");
+        sb.append(getAddresses());
+        return sb.toString();
     }
 }

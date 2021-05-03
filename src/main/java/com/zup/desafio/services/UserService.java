@@ -2,8 +2,11 @@ package com.zup.desafio.services;
 import com.zup.desafio.entities.User;
 import com.zup.desafio.repositories.AddressRepository;
 import com.zup.desafio.repositories.UserRepository;
-import com.zup.desafio.services.exceptions.ObjectNotfoundException;
+import com.zup.desafio.services.exceptions.ObjectNotfound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import com.zup.desafio.services.exceptions.DataIntegrityViolation;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,18 +23,20 @@ public class UserService {
     public User findBy(Integer id){
         Optional<User> obj = repo.findById(id);
 
-        return obj.orElseThrow(() -> new ObjectNotfoundException(
-                "Objeto não encontrado! Id: "
+        return obj.orElseThrow(() -> new ObjectNotfound(
+                "Não conseguimos encontrar o usuário que procura :(  Tente novamente! :) Id: "
                         + id
                         + ", Tipo: "
                         + User.class.getName()
         )) ;
     }
 
-    public User insert(User obj){
+    public User insert(User obj) {
         obj.setId(null);
-        return repo.save(obj);
+        try {
+            return repo.save(obj);
+        }catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolation("Email ou CPF já cadastrados!!");
+        }
     }
-
-
 }

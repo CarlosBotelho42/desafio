@@ -20,17 +20,16 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Integer id){
         User obj = service.findBy(id);
-
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody User obj){
-//        User obj = service.fromDto(objDto);
-        obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+            obj = service.insert(obj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}").buildAndExpand(obj.getId()).toUri();
+            return ResponseEntity.created(uri).build();
+
     }
 
 }

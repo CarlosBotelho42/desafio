@@ -3,10 +3,9 @@ package com.zup.desafio.services;
 import com.zup.desafio.entities.Address;
 import com.zup.desafio.repositories.AddressRepository;
 import com.zup.desafio.repositories.UserRepository;
-import com.zup.desafio.services.exceptions.ObjectNotfoundException;
+import com.zup.desafio.services.exceptions.ObjectNotfound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,8 +24,8 @@ public class AddressService {
     public Address findBy(Integer id){
         Optional<Address> obj = repo.findById(id);
 
-        return obj.orElseThrow(() -> new ObjectNotfoundException(
-                "Objeto não encontrado! Id: "
+        return obj.orElseThrow(() -> new ObjectNotfound(
+                "Não conseguimos encontrar o endereço que procura :(  Tente novamente! :) Id: "
                         + id
                         + ", Tipo: "
                         + Address.class.getName()
@@ -39,9 +38,5 @@ public class AddressService {
         obj = repo.save(obj);
         return obj;
     }
-
-//    public Address fromDto(Address objDto){
-//        Address address = new Address(null, objDto.getStreet(), objDto.getNumber(), objDto.getComplement(), objDto.getDistrict(), objDto.getCity(), objDto.getState(), objDto.getZipCode(),)
-//    }
 
 }

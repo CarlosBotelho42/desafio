@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,12 +17,23 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty(message = "Rua obrigatória!")
     private String street;
+    @NotEmpty(message = "Nunero obrigatório!")
     private String number;
+
     private String complement;
+
+    @NotEmpty(message = "Bairro obrigatório!")
     private String district;
+
+    @NotEmpty(message = "Cidade obrigatório!")
     private String city;
+
+    @NotEmpty(message = "Rua obrigatório!")
     private String state;
+
+    @NotEmpty(message = "Cep obrigatório!")
     private String zipCode;
 
 
