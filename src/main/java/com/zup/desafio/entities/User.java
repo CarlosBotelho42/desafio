@@ -33,9 +33,6 @@ public class User implements Serializable {
     @CPF(message = "Cpf Invalido!")
     private String cpf;
 
-    //cascade = CascadeType.ALL
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 

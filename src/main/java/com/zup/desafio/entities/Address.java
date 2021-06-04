@@ -36,7 +36,6 @@ public class Address implements Serializable {
     @NotEmpty(message = "Cep obrigatório!")
     private String zipCode;
 
-
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
