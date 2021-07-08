@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.zup.desafio.services.exceptions.DataIntegrityViolation;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class UserService {
         )) ;
     }
 
+    @Transactional
     public User insert(User obj) {
         obj.setId(null);
         try {
